@@ -6,6 +6,16 @@ const TransactionSreenn = () => {
     <ScrollView>
       <View>
         <TransactionCard
+          nombre="Maryelis Arcia"
+          numeroCuenta="01020610300100009411"
+          monto={350}
+          destino="Maturi"
+          tipoTarjeta="debito"
+          pais="Venezuela"
+          banco="Banco de Venezuela"
+          estado="pendiente"
+        />
+        <TransactionCard
           nombre="Katherine Vannesa Angulo"
           numeroCuenta="CR05015115320010637096"
           monto={50}
@@ -13,7 +23,7 @@ const TransactionSreenn = () => {
           tipoTarjeta="debito"
           pais="Costa Rica"
           banco="Banco nacional de  Costa Rica"
-          estado="rechazado"
+          estado="enviado"
         />
         <TransactionCard
           nombre="Dazly Daza Acosta"
@@ -23,7 +33,7 @@ const TransactionSreenn = () => {
           tipoTarjeta="credito"
           pais="Colombia"
           banco="Bogota"
-          estado="pendiente"
+          estado="enviado"
         />
         <TransactionCard
           nombre="Pedro"
@@ -41,9 +51,9 @@ const TransactionSreenn = () => {
           monto={5000}
           destino="Compra online"
           tipoTarjeta="debito"
-          pais="Venezuela"
+          pais="Paraguay"
           banco="Weno"
-          estado="rechazado"
+          estado="enviado"
         />
       </View>
     </ScrollView>

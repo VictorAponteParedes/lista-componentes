@@ -48,6 +48,15 @@ export const ComponentListScreen = ({navigation}) => {
           <Text style={estiloModalScreen.title}>Datos del usuario</Text>
         </View>
       </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate('transactionScreen');
+        }}>
+        <View style={estiloModalScreen.container}>
+          <Text style={estiloModalScreen.title}>Historias de pago</Text>
+        </View>
+      </TouchableOpacity>
     </>
   );
 };
