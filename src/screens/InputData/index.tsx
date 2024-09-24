@@ -3,16 +3,16 @@ import {
   View,
   Text,
   TextInput,
-  Button,
   Modal,
   StyleSheet,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons'; // Importa íconos
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 interface ModalProps {
   visible: boolean;
-  onClose: () => void;
+  onClose?: () => void;
 }
 
 const BankFormModal: React.FC<ModalProps> = ({visible, onClose}) => {
@@ -24,135 +24,172 @@ const BankFormModal: React.FC<ModalProps> = ({visible, onClose}) => {
   const [nombreBanco, setNombreBanco] = useState<string | undefined>(undefined);
   const [ciudad, setCiudad] = useState<string | undefined>(undefined);
 
+  const [confirmationModalVisible, setConfirmationModalVisible] =
+    useState(false); // Control del modal de confirmación
+
   const handleSubmit = () => {
-    const data = {
-      nombre,
-      numeroCuenta,
-      pais,
-      nombreBanco,
-      ciudad,
-    };
-    console.log('Datos enviados:', data);
-    onClose(); // Cerrar modal después de enviar
+    setConfirmationModalVisible(true); // Abre el modal de confirmación
+  };
+
+  const handleConfirm = () => {
+    // Si el país es distinto de Paraguay, muestra el mensaje de advertencia
+    if (pais && pais.toLowerCase() !== 'paraguay') {
+      Alert.alert(
+        'Transacción en proceso',
+        `Esto puede tardar de 12 a 24 horas ya que el destino es ${pais}.`,
+      );
+    } else {
+      Alert.alert('Transacción en proceso', 'Tu transacción está en curso.');
+    }
+
+    setConfirmationModalVisible(false); // Cierra el modal de confirmación
+    onClose(); // Cierra el modal principal después de enviar
   };
 
   return (
-    <Modal visible={visible} transparent={true} animationType="slide">
-      <View style={styles.modalContainer}>
-        <View style={styles.modalContent}>
-          {/* Título del Banco con ícono */}
-          <View style={styles.titleContainer}>
-            <Icon
-              name="account-balance"
-              size={24}
-              color="#007bff"
-              style={styles.bankIcon}
-            />
-            <Text style={styles.title}>Banco Horizon</Text>
-          </View>
-
-          {/* Nombre */}
-          <View style={styles.inputGroup}>
-            <Icon name="person" size={20} color="#000" style={styles.icon} />
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>Nombre</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Ingrese su nombre completo"
-                value={nombre}
-                onChangeText={setNombre}
+    <>
+      <Modal visible={visible} transparent={true} animationType="slide">
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <View style={styles.titleContainer}>
+              <Icon
+                name="account-balance"
+                size={24}
+                color="#007bff"
+                style={styles.bankIcon}
               />
+              <Text style={styles.title}>Banco Horizon</Text>
             </View>
-          </View>
 
-          {/* Número de cuenta */}
-          <View style={styles.inputGroup}>
-            <Icon
-              name="account-balance-wallet"
-              size={20}
-              color="#000"
-              style={styles.icon}
-            />
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>Número de Cuenta</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Ingrese su número de cuenta"
-                value={numeroCuenta}
-                onChangeText={setNumeroCuenta}
-                keyboardType="numeric"
+            <View style={styles.inputGroup}>
+              <Icon name="person" size={20} color="#000" style={styles.icon} />
+              <View style={styles.inputContainer}>
+                <Text style={styles.label}>Nombre</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholderTextColor={'grey'}
+                  placeholder="Ingrese su nombre completo"
+                  value={nombre}
+                  onChangeText={setNombre}
+                />
+              </View>
+            </View>
+
+            <View style={styles.inputGroup}>
+              <Icon
+                name="account-balance-wallet"
+                size={20}
+                color="grey"
+                style={styles.icon}
               />
+              <View style={styles.inputContainer}>
+                <Text style={styles.label}>Número de Cuenta</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholderTextColor={'grey'}
+                  placeholder="Ingrese su número de cuenta"
+                  value={numeroCuenta}
+                  onChangeText={setNumeroCuenta}
+                  keyboardType="numeric"
+                />
+              </View>
             </View>
-          </View>
 
-          {/* País */}
-          <View style={styles.inputGroup}>
-            <Icon name="public" size={20} color="#000" style={styles.icon} />
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>País</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Ingrese el país"
-                value={pais}
-                onChangeText={setPais}
+            <View style={styles.inputGroup}>
+              <Icon name="public" size={20} color="grey" style={styles.icon} />
+              <View style={styles.inputContainer}>
+                <Text style={styles.label}>País</Text>
+                <TextInput
+                  placeholderTextColor={'grey'}
+                  style={styles.input}
+                  placeholder="Ingrese el país"
+                  value={pais}
+                  onChangeText={setPais}
+                />
+              </View>
+            </View>
+
+            <View style={styles.inputGroup}>
+              <Icon
+                name="account-balance"
+                size={20}
+                color="grey"
+                style={styles.icon}
               />
+              <View style={styles.inputContainer}>
+                <Text style={styles.label}>Nombre del Banco</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholderTextColor={'grey'}
+                  placeholder="Ingrese el nombre del banco"
+                  value={nombreBanco}
+                  onChangeText={setNombreBanco}
+                />
+              </View>
             </View>
-          </View>
 
-          {/* Nombre del Banco */}
-          <View style={styles.inputGroup}>
-            <Icon
-              name="account-balance"
-              size={20}
-              color="#000"
-              style={styles.icon}
-            />
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>Nombre del Banco</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Ingrese el nombre del banco"
-                value={nombreBanco}
-                onChangeText={setNombreBanco}
+            <View style={styles.inputGroup}>
+              <Icon
+                name="location-city"
+                size={20}
+                color="#000"
+                style={styles.icon}
               />
+              <View style={styles.inputContainer}>
+                <Text style={styles.label}>Ciudad</Text>
+                <TextInput
+                  placeholderTextColor={'grey'}
+                  style={styles.input}
+                  placeholder="Ingrese la ciudad"
+                  value={ciudad}
+                  onChangeText={setCiudad}
+                />
+              </View>
             </View>
-          </View>
 
-          {/* Ciudad */}
-          <View style={styles.inputGroup}>
-            <Icon
-              name="location-city"
-              size={20}
-              color="#000"
-              style={styles.icon}
-            />
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>Ciudad</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Ingrese la ciudad"
-                value={ciudad}
-                onChangeText={setCiudad}
-              />
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity
+                style={styles.submitButton}
+                onPress={handleSubmit}>
+                <Text style={styles.buttonText}>Enviar</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.submitButton, styles.cancelButton]}
+                onPress={onClose}>
+                <Text style={styles.buttonText}>Cancelar</Text>
+              </TouchableOpacity>
             </View>
-          </View>
-
-          {/* Botones */}
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity
-              style={styles.submitButton}
-              onPress={handleSubmit}>
-              <Text style={styles.buttonText}>Enviar</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.submitButton, styles.cancelButton]}
-              onPress={onClose}>
-              <Text style={styles.buttonText}>Cancelar</Text>
-            </TouchableOpacity>
           </View>
         </View>
-      </View>
-    </Modal>
+      </Modal>
+
+      {/* Modal de Confirmación */}
+      <Modal
+        visible={confirmationModalVisible}
+        transparent={true}
+        animationType="fade">
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.confirmText}>
+              ¿Estás seguro de enviar la transacción a nombre de {nombre} con el
+              número de cuenta {numeroCuenta}?
+            </Text>
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity
+                style={styles.submitButton}
+                onPress={handleConfirm}>
+                <Text style={styles.buttonText}>Sí</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.submitButton, styles.cancelButton]}
+                onPress={() => setConfirmationModalVisible(false)}>
+                <Text style={styles.buttonText}>No</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+    </>
   );
 };
 
@@ -209,7 +246,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     paddingHorizontal: 10,
-    fontSize: 16,
+    fontSize: 13,
+    color: '#000',
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -232,6 +270,12 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  confirmText: {
+    fontSize: 14,
+    textAlign: 'center',
+    marginBottom: 20,
+    color: 'black',
   },
 });
 
