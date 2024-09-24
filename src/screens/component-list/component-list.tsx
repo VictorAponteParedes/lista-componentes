@@ -42,12 +42,10 @@ export const ComponentListScreen = ({navigation}) => {
 
       <TouchableOpacity
         onPress={() => {
-          navigation.navigate('transactionScreen');
+          navigation.navigate('customModal');
         }}>
         <View style={estiloModalScreen.container}>
-          <Text style={estiloModalScreen.title}>
-            Componente Method send money
-          </Text>
+          <Text style={estiloModalScreen.title}>Datos del usuario</Text>
         </View>
       </TouchableOpacity>
     </>
