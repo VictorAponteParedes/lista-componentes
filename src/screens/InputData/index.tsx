@@ -26,24 +26,17 @@ const BankFormModal: React.FC<ModalProps> = ({visible, onClose}) => {
 
   const [confirmationModalVisible, setConfirmationModalVisible] =
     useState(false); // Control del modal de confirmación
+  const [messageModalVisible, setMessageModalVisible] = useState(false);
 
   const handleSubmit = () => {
     setConfirmationModalVisible(true); // Abre el modal de confirmación
   };
 
   const handleConfirm = () => {
-    // Si el país es distinto de Paraguay, muestra el mensaje de advertencia
-    if (pais && pais.toLowerCase() !== 'paraguay') {
-      Alert.alert(
-        'Transacción en proceso',
-        `Esto puede tardar de 12 a 24 horas ya que el destino es ${pais}.`,
-      );
-    } else {
-      Alert.alert('Transacción en proceso', 'Tu transacción está en curso.');
-    }
+    setConfirmationModalVisible(false);
 
-    setConfirmationModalVisible(false); // Cierra el modal de confirmación
-    onClose(); // Cierra el modal principal después de enviar
+    // Mostrar el modal de mensaje en lugar de usar Alert
+    setMessageModalVisible(true);
   };
 
   return (
@@ -184,6 +177,32 @@ const BankFormModal: React.FC<ModalProps> = ({visible, onClose}) => {
                 style={[styles.submitButton, styles.cancelButton]}
                 onPress={() => setConfirmationModalVisible(false)}>
                 <Text style={styles.buttonText}>No</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+      {/* Modal de Mensaje */}
+      <Modal
+        visible={messageModalVisible}
+        transparent={true}
+        animationType="fade">
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.confirmText}>
+              {pais && pais.toLowerCase() !== 'paraguay'
+                ? `Esto puede tardar de 12 a 24 horas ya que el destino es ${pais}.`
+                : 'Tu transacción está en curso.'}
+            </Text>
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity
+                style={styles.submitButton}
+                onPress={() => {
+                  setMessageModalVisible(false);
+                  //   onClose(); // Cierra el modal principal
+                }}>
+                <Text style={styles.buttonText}>Aceptar</Text>
               </TouchableOpacity>
             </View>
           </View>
