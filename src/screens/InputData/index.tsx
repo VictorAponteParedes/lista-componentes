@@ -20,6 +20,7 @@ const BankFormModal: React.FC<ModalProps> = ({visible, onClose}) => {
   const [numeroCuenta, setNumeroCuenta] = useState<string | undefined>(
     undefined,
   );
+  const [monto, setMonto] = useState<string | undefined>(undefined);
   const [pais, setPais] = useState<string | undefined>(undefined);
   const [nombreBanco, setNombreBanco] = useState<string | undefined>(undefined);
   const [ciudad, setCiudad] = useState<string | undefined>(undefined);
@@ -83,6 +84,20 @@ const BankFormModal: React.FC<ModalProps> = ({visible, onClose}) => {
                   placeholder="Ingrese su número de cuenta"
                   value={numeroCuenta}
                   onChangeText={setNumeroCuenta}
+                  keyboardType="numeric"
+                />
+              </View>
+            </View>
+            <View style={styles.inputGroup}>
+              <Icon name="paid" size={20} color="grey" style={styles.icon} />
+              <View style={styles.inputContainer}>
+                <Text style={styles.label}>Monto</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholderTextColor={'grey'}
+                  placeholder="Ingrese monto a enviar"
+                  value={monto}
+                  onChangeText={setMonto}
                   keyboardType="numeric"
                 />
               </View>
@@ -165,7 +180,8 @@ const BankFormModal: React.FC<ModalProps> = ({visible, onClose}) => {
           <View style={styles.modalContent}>
             <Text style={styles.confirmText}>
               ¿Estás seguro de enviar la transacción a nombre de {nombre} con el
-              número de cuenta {numeroCuenta}?
+              número de cuenta {numeroCuenta} el monto en dolar ${monto}{' '}
+              dolares?
             </Text>
             <View style={styles.buttonContainer}>
               <TouchableOpacity
@@ -192,7 +208,7 @@ const BankFormModal: React.FC<ModalProps> = ({visible, onClose}) => {
           <View style={styles.modalContent}>
             <Text style={styles.confirmText}>
               {pais && pais.toLowerCase() !== 'paraguay'
-                ? `Esto puede tardar de 12 a 24 horas ya que el destino es ${pais}.`
+                ? `Enviando,  esto puede tardar de 12 a 24 horas ya que el destino es ${pais}.`
                 : 'Tu transacción está en curso.'}
             </Text>
             <View style={styles.buttonContainer}>
