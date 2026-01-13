@@ -1,17 +1,17 @@
 import * as React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import {HomeScreen} from '../screens/home/home-screen';
-import {ProfileScreen} from '../screens/profile/profile-screen';
-import {ModalScreen} from '../screens/modal/modal-screen';
-import {InputCustomScreen} from '../screens/input-screen/input-screen';
-import {HeaderScreen} from '../screens/header-screen/header-screen';
-import {VposScreen} from '../screens/vpos-screen/vpos-screen';
+import { HomeScreen } from '../screens/home/home-screen';
+import { ProfileScreen } from '../screens/profile/profile-screen';
+import { ModalScreen } from '../screens/modal/modal-screen';
+import { InputCustomScreen } from '../screens/input-screen/input-screen';
+import { HeaderScreen } from '../screens/header-screen/header-screen';
+import { VposScreen } from '../screens/vpos-screen/vpos-screen';
 import TransactionSreenn from '../screens/transactionScreen';
-import BankFormModal from '../screens/InputData';
+import CustomModalScreen from '../screens/CustomModalScreen';
 
-import {NavigationTabs} from './navigation-tab';
+import { NavigationTabs } from './navigation-tab';
 
 const Stack = createNativeStackNavigator();
 
@@ -27,7 +27,7 @@ export const MyNavigationStack = () => {
         <Stack.Screen
           name="Tabs"
           component={NavigationTabs}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
 
         <Stack.Screen
@@ -87,9 +87,10 @@ export const MyNavigationStack = () => {
 
         <Stack.Screen
           name="customModal"
-          component={BankFormModal}
+          component={CustomModalScreen}
           options={{
             headerShown: false,
+            presentation: 'transparentModal',
           }}
         />
       </Stack.Navigator>
